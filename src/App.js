@@ -4,7 +4,7 @@ import { Homepage, ChatPage } from "./Pages";
 
 function App() {
   return (
-    <div>
+    <div className="min-h-screen flex bg-aurora bg-cover bg-center">
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/chats" element={<ChatPage />} />
