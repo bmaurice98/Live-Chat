@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# Building a real time chat application through the use of MERN stack
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## What is MERN?
 
-## Available Scripts
+MERN is the combination of MongoDB, ExpressJS, ReactJS, and NodeJS
 
-In the project directory, you can run:
+### ReactJS
 
-### `npm start`
+- ReactJS is the front-end framework. Used for building the components of
+  a page. Everything the User sees is made through ReactJS.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Reusable component (effective in component that are shown in abundance on a page)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Virtual DOM. UI is kept in memory or synced with the "real" DOM through the use
+  of ReactDOM.
 
-### `npm test`
+- Very fast
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### NodeJS
 
-### `npm run build`
+- NodeJS is the backend portion of the stack responsible for communicating
+  with the web Server
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Javascript runtime built on Chrome V8 engine
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Scalable web Server. Responsible for managing API and connecting frontend with backend
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Contains Node package manager.
 
-### `npm run eject`
+- Useful in developing realtime applications
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### ExpressJS
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- ExpressJS is the portion of the backend responsible for communicating with NodeJS
+  and as a web framework
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Powerful routing API
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Easy to use (Documentation is simple and newby friendly)
 
-## Learn More
+- High performance, very scalable
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Third party plugins (Active community)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### MongoDB
 
-### Code Splitting
+- MongoDB is the database management technology of the stack. Used in storing
+  all of the applications data. (Messages, accounts, etc.)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Cross platform, no SQL database
 
-### Analyzing the Bundle Size
+- Self sustaining DB
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Highly scalable
 
-### Making a Progressive Web App
+- Flexible schema
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## How they work together
 
-### Advanced Configuration
+React sends requests to web framework to ExpressJS, express takes the info and sends it
+to the web server, which is then sent from web sever to MongoDB, then travels back up the ladder
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## API call key functions
 
-### Deployment
+GET - returns a value within the database
+POST - creates a new value in the database
+PUT - updates vales already in the database
+DELETE - deleting info from database
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Directories
 
-### `npm run build` fails to minify
+To begin, There will be 2 main directories.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Backend
+
+  - Used to handle all communication between the web framework and the database
+  - Models
+    - Holds the schemas necessary for a chat model, message model, and user model.
+    - These models tell the database how the data should be stored and distributed.
+
+- Frontend
+  - Handling all UI compenents and communication between the web framework
