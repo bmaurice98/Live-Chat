@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Box,
@@ -10,8 +10,19 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 import { Login, Signup } from "../components/authentication";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (user) {
+      navigate("/chats");
+    }
+  }, [navigate]);
+
   return (
     <Container maxW={"xl"} centerContent>
       <Box className="flex justify-center p-2 bg-white w-[100%] mt-10 mb-4 border-2 rounded-lg">
