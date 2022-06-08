@@ -49,7 +49,7 @@ export const SideDrawer = () => {
 
   const handleSearch = async () => {
     if (!search) {
-      toast({
+      return toast({
         title: "Error Occured!",
         description: "Please enter something in the field",
         status: "warning",
@@ -58,6 +58,7 @@ export const SideDrawer = () => {
         position: "top-left",
       });
     }
+
     try {
       setLoading(true);
 
@@ -68,7 +69,6 @@ export const SideDrawer = () => {
       };
 
       const { data } = await axios.get(`/api/user?search=${search}, ${config}`);
-      console.log(data);
 
       setLoading(false);
       setResult(data);
