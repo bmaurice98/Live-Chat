@@ -10,9 +10,9 @@ const ChatPage = () => {
   const { user } = ChatState();
 
   return (
-    <div className="w-full">
+    <div className="w-full text-white font-serif">
       {user && <SideDrawer />}
-      <Box>
+      <Box className="flex justify-between w-full h-[91.5vh] p-[10px]">
         {user && <MyChats />}
         {user && <ChatBox />}
       </Box>
