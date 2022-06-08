@@ -2,6 +2,7 @@ import { ViewIcon } from "@chakra-ui/icons";
 import {
   Button,
   IconButton,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,7 +14,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import { ChatState } from "../../context/ChatProvider";
 
 export const ProfileModal = ({ user, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,15 +25,20 @@ export const ProfileModal = ({ user, children }) => {
       ) : (
         <IconButton className="flex" icon={<ViewIcon />} onClick={onOpen} />
       )}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{user.name}</ModalHeader>
+          <ModalHeader className="flex justify-center">{user.name}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <Text fontWeight="bold" mb="1rem">
-              You can scroll the content behind the modal
-            </Text>
+          <ModalBody className="flex flex-col justify-between items-center">
+            <Image
+              src={user.image}
+              alt={user.name}
+              boxSize={"150px"}
+              borderRadius={"full"}
+              className="mb-5"
+            />
+            <Text>{user.email}</Text>
           </ModalBody>
 
           <ModalFooter>

@@ -5,6 +5,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Text,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -20,6 +21,7 @@ const Signup = () => {
   const [confirmpassword, setConfirmpassword] = useState("");
   const [pic, setPic] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passwordAlert, setpasswordAlert] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -108,7 +110,6 @@ const Signup = () => {
         { name, email, password, pic },
         config
       );
-      console.log(data);
       toast({
         title: "Registration Succeful",
         status: "success",
@@ -133,24 +134,34 @@ const Signup = () => {
     }
   };
 
+  const matchPassword = (confirmPassword) => {
+    setTimeout(() => {
+      if (confirmPassword.toString() === password.toString()) {
+        setpasswordAlert(false);
+      } else {
+        setpasswordAlert(true);
+      }
+    }, 2000);
+  };
+
   return (
     <div>
       <VStack spacing={"5px"} color="black">
-        <FormControl id="first-name" isRequired>
+        <FormControl id="first-name" paddingY={1} isRequired>
           <FormLabel>Name</FormLabel>
           <Input
             placeholder="Enter Your Name"
             onChange={(e) => setName(e.target.value)}
           />
         </FormControl>
-        <FormControl id="emailSignup" isRequired>
+        <FormControl id="emailSignup" paddingY={1} isRequired>
           <FormLabel>Email</FormLabel>
           <Input
             placeholder="Enter Your Email"
             onChange={(e) => setEmail(e.target.value)}
           />
         </FormControl>
-        <FormControl id="passwordSignup" isRequired>
+        <FormControl id="passwordSignup" paddingY={1} isRequired>
           <FormLabel>Password</FormLabel>
           <InputGroup>
             <Input
@@ -171,14 +182,20 @@ const Signup = () => {
             </InputRightElement>
           </InputGroup>
         </FormControl>
-        <FormControl id="confirm-password" isRequired>
+        <FormControl id="confirm-password" paddingY={1} isRequired>
           <FormLabel>Confirm Password</FormLabel>
-          <InputGroup>
+          <InputGroup className="flex flex-col">
             <Input
               type={show ? "text" : "password"}
               placeholder="Confirm your Password"
-              onChange={(e) => setConfirmpassword(e.target.value)}
+              onChange={(e) => {
+                setConfirmpassword(e.target.value);
+                matchPassword(e.target.value);
+              }}
             />
+            {passwordAlert ? (
+              <Text color={"red"}>Passwords do not match</Text>
+            ) : null}
             <InputRightElement className="w-[4.5rem]">
               <Button
                 className="h-[1.75rem] mr-4"
@@ -192,7 +209,7 @@ const Signup = () => {
             </InputRightElement>
           </InputGroup>
         </FormControl>
-        <FormControl id="profile-pic">
+        <FormControl id="profile-pic" paddingY={1}>
           <FormLabel>Upload a Profile Picture</FormLabel>
           <Input
             type={"file"}
