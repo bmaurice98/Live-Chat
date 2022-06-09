@@ -2,6 +2,7 @@ const expressAsyncHandler = require("express-async-handler");
 const Chat = require("../models/chatModel");
 const User = require("../models/userModel");
 
+// Creates or fetches a chat
 const accessChat = expressAsyncHandler(async (req, res) => {
   const { userId } = req.body;
 
@@ -24,6 +25,7 @@ const accessChat = expressAsyncHandler(async (req, res) => {
     path: "latestMessage.sender",
     select: "name image email",
   });
+
   if (isChat.length > 0) {
     res.send(isChat[0]);
   } else {

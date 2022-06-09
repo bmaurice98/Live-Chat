@@ -28,7 +28,6 @@ const Signup = () => {
   const postDetails = (pics) => {
     setLoading(true);
     if (pics === undefined) {
-      console.log("Undefined pic");
       toast({
         title: "Please Select an Image",
         status: "warning",
@@ -44,7 +43,6 @@ const Signup = () => {
       pics.type === "image/png" ||
       pics.type === "image/jpg"
     ) {
-      console.log("pic made it");
       const data = new FormData();
       data.append("file", pics);
       data.append("upload_preset", "Live-Chat");

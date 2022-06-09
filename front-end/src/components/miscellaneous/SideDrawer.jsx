@@ -92,7 +92,7 @@ export const SideDrawer = () => {
       const config = {
         Headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+          authorization: `Bearer ${user.token}`,
         },
       };
 
@@ -184,13 +184,11 @@ export const SideDrawer = () => {
               <ChatLoading />
             ) : (
               result?.map((user) => (
-                <>
-                  <UserListItem
-                    key={user._id}
-                    user={user}
-                    handleFunction={() => accessChat(user._id)}
-                  />
-                </>
+                <UserListItem
+                  key={user._id}
+                  user={user}
+                  handleFunction={() => accessChat(user._id)}
+                />
               ))
             )}
             {loading && <Spinner className="flex ml-auto" />}
