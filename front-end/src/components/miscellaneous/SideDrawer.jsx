@@ -4,7 +4,6 @@ import {
   Button,
   Drawer,
   DrawerBody,
-  DrawerCloseButton,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
@@ -15,6 +14,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Spinner,
   Text,
   Tooltip,
   useDisclosure,
@@ -27,6 +27,7 @@ import { ProfileModal } from "./ProfileModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
+import UserListItem from "../UserAvatar/UserListItem";
 
 export const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -34,7 +35,7 @@ export const SideDrawer = () => {
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
 
-  const { user } = ChatState();
+  const { user, setSelectedChat, chats, setChats } = ChatState();
 
   const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ export const SideDrawer = () => {
   const handleSearch = async () => {
     if (!search) {
       return toast({
-        title: "Error Occured!",
+        title: "Missing Field",
         description: "Please enter something in the field",
         status: "warning",
         duration: 5000,
@@ -68,7 +69,7 @@ export const SideDrawer = () => {
         },
       };
 
-      const { data } = await axios.get(`/api/user?search=${search}, ${config}`);
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
 
       setLoading(false);
       setResult(data);
@@ -76,6 +77,36 @@ export const SideDrawer = () => {
       toast({
         title: "Error Occured!",
         description: "Failed to load results",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
+
+  const accessChat = async (userId) => {
+    try {
+      setLoadingChat(true);
+
+      const config = {
+        Headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = await axios.post("/api/chat", { userId }, config);
+
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+
+      setSelectedChat(data);
+      setLoading(false);
+      onClose();
+    } catch (error) {
+      toast({
+        title: "Error retrieving chat",
+        description: error.message,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -138,16 +169,31 @@ export const SideDrawer = () => {
         <DrawerContent>
           <DrawerHeader>Users</DrawerHeader>
           <DrawerBody>
-            <Box className="flex p-[2px]">
+            <Box className="flex p-[2px] mb-2">
               <Input
                 placeholder="Search by name or email"
                 mr={2}
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
               />
               <Button onClick={handleSearch}>Go</Button>
             </Box>
-            {loading ? <ChatLoading /> : <span>results</span>}
+            {loading ? (
+              <ChatLoading />
+            ) : (
+              result?.map((user) => (
+                <>
+                  <UserListItem
+                    key={user._id}
+                    user={user}
+                    handleFunction={() => accessChat(user._id)}
+                  />
+                </>
+              ))
+            )}
+            {loading && <Spinner className="flex ml-auto" />}
           </DrawerBody>
 
           <DrawerFooter>
