@@ -86,12 +86,13 @@ export const SideDrawer = () => {
   };
 
   const accessChat = async (userId) => {
+    console.log(userId);
     try {
       setLoadingChat(true);
 
       const config = {
-        Headers: {
-          "Content-Type": "application/json",
+        headers: {
+          "Content-type": "application/json",
           authorization: `Bearer ${user.token}`,
         },
       };

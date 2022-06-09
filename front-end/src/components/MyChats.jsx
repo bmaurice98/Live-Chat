@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { ChatState } from "../context/ChatProvider";
 
 export const MyChats = () => {
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const { user, SelectedChat, setSelectedChat, chats, setChats } = ChatState();
   const [loggedUser, setLoggedUser] = useState();
 
   const toast = useToast();
@@ -17,7 +17,7 @@ export const MyChats = () => {
         },
       };
 
-      const { data } = await axios.post("/api/chat", config);
+      const { data } = await axios.get("/api/chat", config);
       setChats(data);
     } catch (error) {
       toast({
