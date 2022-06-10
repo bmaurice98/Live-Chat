@@ -14,7 +14,7 @@ export const MyChats = () => {
   const toast = useToast();
 
   const fetchChats = async () => {
-    if (chats.length == 0) return;
+    if (!chats) return;
     try {
       const config = {
         headers: {

@@ -62,7 +62,7 @@ const GroupChatModel = ({ children }) => {
   };
   const handleSubmit = async () => {
     if (!groupChatName || !selectedUsers) {
-      toast({
+      return toast({
         title: "Missing Field",
         meesage: "Please fill in all fields",
         status: "error",
@@ -80,15 +80,16 @@ const GroupChatModel = ({ children }) => {
       };
 
       const { data } = await axios.post(
-        "/api/user/group",
+        "/api/chat/group",
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((user) => user._id)),
         },
         config
       );
+      console.log(data);
 
-      setChats(data, chats);
+      setChats([data, ...chats]);
       onclose();
       toast({
         title: "Success",

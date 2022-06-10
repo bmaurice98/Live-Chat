@@ -167,6 +167,20 @@ const addToGroup = expressAsyncHandler(async (req, res) => {
     console.log(`${user.name} was added from the group`);
   }
 });
+
+const chatDelete = expressAsyncHandler(async (req, res) => {
+  const { chatId } = req.body;
+  console.log(chatId);
+
+  const deleteChat = await Chat.findOneAndRemove(chatId);
+
+  if (deleteChat) {
+    res.status(200).message("Chat Remove successful");
+  } else {
+    res.status(400).message("Something went wrong");
+  }
+});
+
 module.exports = {
   accessChat,
   fetchChats,
@@ -174,4 +188,5 @@ module.exports = {
   renameGroup,
   removeFromGroup,
   addToGroup,
+  chatDelete,
 };
