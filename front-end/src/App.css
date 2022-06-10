@@ -7,3 +7,15 @@
     font-family: Proxima Nova, system-ui, sans-serif;
   }
 }
+
+::webkit-scrollbar {
+  width: 0px;
+}
+
+::webkit-scrollbar-thumb {
+  background: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+
+::webkit-scrollbar-thumb:hover {
+  background: "#25D366";
+}
