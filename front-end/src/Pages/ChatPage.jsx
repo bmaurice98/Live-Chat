@@ -7,13 +7,16 @@ import { Box } from "@chakra-ui/react";
 
 const ChatPage = () => {
   const { user } = ChatState();
+  const [fetchAgain, setFetchAgain] = useState(false);
 
   return (
     <div className="w-full text-white font-serif">
       {user && <SideDrawer />}
       <Box className="flex justify-between w-full h-[91.5vh] p-[10px]">
-        {user && <MyChats />}
-        {user && <ChatBox />}
+        {user && <MyChats fetchAgain={fetchAgain} />}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
       </Box>
     </div>
   );

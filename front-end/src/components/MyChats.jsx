@@ -7,7 +7,7 @@ import { ChatState } from "../context/ChatProvider";
 import ChatLoading from "./ChatLoading";
 import GroupChatModel from "./miscellaneous/GroupChatModel";
 
-export const MyChats = () => {
+export const MyChats = ({ fetchAgain }) => {
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const [loggedUser, setLoggedUser] = useState();
 
@@ -39,13 +39,13 @@ export const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
 
   return (
     <Box
       className={`${
         selectedChat ? "hidden" : "flex"
-      } md:flex flex-col items-center p-3 bg-gray-700 w-full md:w-[31%] rounded-md border-2 border-gray-800`}
+      } md:flex flex-col items-center p-3 bg-gray-700 w-full md:w-[31%] rounded-md border-2 border-slate-800`}
     >
       <Box className="flex w-full justify-between items-center px-3 pb-3 text-[28px] md:text-[30px] ">
         My Chats

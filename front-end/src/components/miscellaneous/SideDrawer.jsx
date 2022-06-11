@@ -117,7 +117,7 @@ export const SideDrawer = () => {
 
   return (
     <>
-      <Box className="w-full flex justify-between items-center bg-gray-700 py-[5px] px-[10px] border-4 border-t-0 border-gray-800 rounded-b-md">
+      <Box className="w-full flex justify-between items-center bg-gray-700 py-[5px] px-[10px] border-4 border-t-0 border-slate-800 rounded-b-md">
         <Tooltip label="Search Users to chat" hasArrow placement="bottom">
           <Button variant={"ghost"} color={"whatsapp.300"} onClick={onOpen}>
             <i className="fa-solid fa-magnifying-glass"></i>

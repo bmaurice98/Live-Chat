@@ -46,7 +46,7 @@ const GroupChatModel = ({ children }) => {
       };
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-      console.log(data);
+      // console.log(data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -87,10 +87,9 @@ const GroupChatModel = ({ children }) => {
         },
         config
       );
-      console.log(data);
 
       setChats([data, ...chats]);
-      onclose();
+      onClose();
       toast({
         title: "Success",
         meesage: "GroupChat created",

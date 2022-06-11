@@ -23,7 +23,14 @@ export const ProfileModal = ({ user, children }) => {
       {children ? (
         <span onClick={onOpen}>{children}</span>
       ) : (
-        <IconButton className="flex" icon={<ViewIcon />} onClick={onOpen} />
+        <IconButton
+          className="flex"
+          icon={<ViewIcon />}
+          color={"whatsapp.500"}
+          variant={"ghost"}
+          size={1}
+          onClick={onOpen}
+        />
       )}
       <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
         <ModalOverlay />
@@ -45,7 +52,6 @@ export const ProfileModal = ({ user, children }) => {
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost">Secondary Action</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
