@@ -35,7 +35,6 @@ export const MyChats = ({ fetchAgain }) => {
       });
     }
   };
-
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
@@ -68,7 +67,7 @@ export const MyChats = ({ fetchAgain }) => {
               <Box
                 className={`cursor-pointer px-3 py-2 rounded-md`}
                 bg={selectedChat === chat ? "whatsapp.500" : "#00000"}
-                color={selectedChat === chat ? "#white" : "whatsapp.700"}
+                color={selectedChat === chat ? "gray.800" : "whatsapp.700"}
                 _hover={{ bg: "white" }}
                 key={chat._id}
                 onClick={() => setSelectedChat(chat)}

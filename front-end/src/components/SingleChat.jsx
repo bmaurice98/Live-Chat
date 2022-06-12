@@ -13,7 +13,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     <>
       {selectedChat ? (
         <>
-          <Text className="flex w-full text-[28px] md:text-[30px] pb-3 px-1 justify-between items-center">
+          <Box className="flex w-full text-[28px] md:text-[30px] pb-3 px-1 justify-between items-center">
             <IconButton
               className="flex md:hidden"
               color={"whatsapp.500"}
@@ -32,7 +32,6 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   color={"whatsapp.500"}
                   variant="ghost"
                 />
-                {console.log(selectedChat)}
               </>
             ) : (
               <>
@@ -41,10 +40,9 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   fetchAgain={fetchAgain}
                   setFetchAgain={setFetchAgain}
                 />
-                {console.log(selectedChat)}
               </>
             )}
-          </Text>
+          </Box>
           <Box className="flex flex-col w-full h-[100%] justify-end p-2 bg-gray-400 rounded-md overflow-y-hidden"></Box>
         </>
       ) : (

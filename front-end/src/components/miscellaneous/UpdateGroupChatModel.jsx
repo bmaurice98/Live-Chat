@@ -85,7 +85,17 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
   };
 
   const handleRename = async () => {
-    if (!groupChatName) return;
+    if (!groupChatName) {
+      return toast({
+        title: "Missing Rename Field",
+        meesage:
+          "Please enter something in the field to change the groupchat name",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
 
     try {
       setRenameLoading(true);
@@ -114,13 +124,14 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
         isClosable: true,
         position: "bottom",
       });
+      setRenameLoading(false);
     }
     setGroupChatName("");
   };
 
   const handleSearch = async (query) => {
     setSearch(query);
-    if (!query) return;
+    if (!search) return;
 
     try {
       setLoading(true);
@@ -132,7 +143,7 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
       };
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-      console.log(data);
+      // if (data.users.email.substring(0, str.indexOf("@")).includes(search))
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -148,7 +159,6 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
   };
 
   const handleAddUser = async (userToAdd) => {
-    console.log(userToAdd);
     if (selectedChat.users.find((u) => u._id === userToAdd._id)) {
       toast({
         title: "User already exists in group",
@@ -188,7 +198,7 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
         },
         config
       );
-
+      console.log(data);
       setSelectedchat(data);
       setFetchAgain(!fetchAgain);
       setLoading(false);
@@ -223,9 +233,9 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
           <ModalCloseButton />
           <ModalBody className="flex flex-col justify-between items-center">
             <Box className="flex w-full flex-wrap pb-2">
-              {selectedChat.users.map((u) => (
+              {selectedChat.users.map((u, index) => (
                 <UserBadgeItem
-                  key={user._id}
+                  key={user._id + index.toString()}
                   user={u}
                   handleFunction={() => handleRemove(u)}
                 />

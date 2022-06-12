@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const colors = require("colors");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 const { errorHandler, notFound } = require("./middlewares/errorMiddleware");
 
 dotenv.config();
@@ -18,7 +19,7 @@ app.use(bp.urlencoded({ extended: true }));
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
-// app.use("/api/chat")
+app.use("/api/message", messageRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
