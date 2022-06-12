@@ -25,19 +25,20 @@ import UserListItem from "../UserAvatar/UserListItem";
 
 export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { groupChatName, setGroupChatName } = useState();
+  const [groupChatName, setGroupChatName] = useState();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [renameLoading, setRenameLoading] = useState(false);
 
   const toast = useToast();
+
   const { selectedChat, setSelectedchat, user } = ChatState();
 
   const handleRemove = async (userToRemove) => {
     if (
-      selectedChat.groupAdmin._id !== userToRemove._id &&
-      user._id !== user._id
+      selectedChat.groupAdmin._id !== user._id &&
+      user._id !== userToRemove._id
     ) {
       toast({
         title: "Only Admins can remove users from the group",
@@ -69,6 +70,8 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
       userToRemove._id === user._id ? setSelectedchat() : setSelectedchat(data);
       setFetchAgain(!fetchAgain);
       setLoading(false);
+      onClose();
+      return;
     } catch (error) {
       toast({
         title: "Error Occured",
@@ -232,8 +235,9 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
               <Input
                 placeholder="Chat name"
                 mb={3}
-                value={groupChatName}
-                onChange={(e) => setGroupChatName(e.target.value)}
+                onChange={(e) => {
+                  setGroupChatName(e.target.value);
+                }}
               />
               <Button
                 variant={"solid"}
@@ -249,7 +253,6 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
               <Input
                 placeholder="Add User to group"
                 mb={1}
-                value={groupChatName}
                 onChange={(e) => handleSearch(e.target.value)}
               />
               {loading ? (
