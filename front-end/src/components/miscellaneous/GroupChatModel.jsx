@@ -83,7 +83,7 @@ const GroupChatModel = ({ children }) => {
         "/api/chat/group",
         {
           name: groupChatName,
-          users: JSON.stringify(selectedUsers.map((user) => user._id)),
+          users: JSON.stringify(selectedUsers.map((u) => u._id)),
         },
         config
       );

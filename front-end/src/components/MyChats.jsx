@@ -69,7 +69,7 @@ export const MyChats = ({ fetchAgain }) => {
                 className={`cursor-pointer px-3 py-2 rounded-md`}
                 bg={selectedChat === chat ? "whatsapp.500" : "#00000"}
                 color={selectedChat === chat ? "#white" : "whatsapp.700"}
-                _hover={{ background: "whatsapp" }}
+                _hover={{ bg: "white" }}
                 key={chat._id}
                 onClick={() => setSelectedChat(chat)}
               >

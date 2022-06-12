@@ -32,6 +32,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   color={"whatsapp.500"}
                   variant="ghost"
                 />
+                {console.log(selectedChat)}
               </>
             ) : (
               <>
@@ -40,6 +41,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   fetchAgain={fetchAgain}
                   setFetchAgain={setFetchAgain}
                 />
+                {console.log(selectedChat)}
               </>
             )}
           </Text>
