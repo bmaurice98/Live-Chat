@@ -17,6 +17,8 @@ const sendMessage = expressAsyncHandler(async (req, res) => {
     chat: chatId,
   };
 
+  console.log(newMessage);
+
   try {
     var message = await Message.create(newMessage);
 
@@ -28,7 +30,7 @@ const sendMessage = expressAsyncHandler(async (req, res) => {
       select: "name image email",
     });
 
-    await Chat.findByIdAndUpdate(req.body, chatId, {
+    await Chat.findByIdAndUpdate(req.body.chatId, {
       latestMessage: message,
     });
 
@@ -41,4 +43,18 @@ const sendMessage = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { sendMessage };
+const allMessages = expressAsyncHandler(async (req, res) => {
+  try {
+    const messages = await Message.find({ chat: req.params.chatId }).populate(
+      "sender",
+      "name image email"
+    );
+
+    res.json(messages);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+module.exports = { sendMessage, allMessages };
