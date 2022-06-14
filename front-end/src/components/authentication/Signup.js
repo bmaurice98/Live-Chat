@@ -96,6 +96,7 @@ const Signup = () => {
         isClosable: true,
         position: "top",
       });
+      setLoading(false);
       return;
     }
 

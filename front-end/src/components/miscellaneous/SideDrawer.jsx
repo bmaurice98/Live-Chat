@@ -8,6 +8,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
+  FormControl,
   Input,
   Menu,
   MenuButton,
@@ -177,6 +178,7 @@ export const SideDrawer = () => {
                 onChange={(e) => {
                   setSearch(e.target.value);
                 }}
+                onKeyDown={(e) => (e.key === "Enter" ? handleSearch : {})}
               />
               <Button onClick={handleSearch}>Go</Button>
             </Box>

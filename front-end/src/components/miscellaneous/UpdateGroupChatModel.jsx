@@ -22,8 +22,13 @@ import { ChatState } from "../../context/ChatProvider";
 import { UserBadgeItem } from "../UserAvatar/UserBadgeItem";
 import axios from "axios";
 import UserListItem from "../UserAvatar/UserListItem";
+import { set } from "mongoose";
 
-export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
+export const UpdateGroupChatModel = ({
+  fetchAgain,
+  setFetchAgain,
+  fetchMessages,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
   const [search, setSearch] = useState("");
@@ -33,7 +38,7 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
 
   const toast = useToast();
 
-  const { selectedChat, setSelectedchat, user } = ChatState();
+  const { selectedChat, setSelectedChat, user } = ChatState();
 
   const handleRemove = async (userToRemove) => {
     if (
@@ -67,8 +72,9 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
         config
       );
 
-      userToRemove._id === user._id ? setSelectedchat() : setSelectedchat(data);
+      userToRemove._id === user._id ? setSelectedChat() : setSelectedChat(data);
       setFetchAgain(!fetchAgain);
+      fetchMessages();
       setLoading(false);
       onClose();
       return;
@@ -81,7 +87,9 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
         isClosable: true,
         position: "bottom-left",
       });
+      setLoading(false);
     }
+    setGroupChatName("");
   };
 
   const handleRename = async () => {
@@ -112,7 +120,7 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
         config
       );
 
-      setSelectedchat(data);
+      setSelectedChat(data);
       setFetchAgain(!fetchAgain);
       setRenameLoading(false);
     } catch (error) {
@@ -198,8 +206,8 @@ export const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }) => {
         },
         config
       );
-      console.log(data);
-      setSelectedchat(data);
+
+      setSelectedChat(data);
       setFetchAgain(!fetchAgain);
       setLoading(false);
     } catch (error) {
