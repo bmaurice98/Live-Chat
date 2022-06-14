@@ -27,6 +27,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+  const [socketConnected, setSocketConnected] = useState(false);
 
   const toast = useToast();
 
@@ -48,6 +49,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
       setMessages(data);
       setLoading(false);
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
         title: "Fetch message problem occured",
@@ -60,8 +62,30 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("connection", () => {
+      setSocketConnected(true);
+    });
+  }, []);
+
+  useEffect(() => {
     fetchMessages();
+
+    selectedChatCompare = selectedChat;
   }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+      }
+    });
+  });
 
   const sendMessage = async (e) => {
     if (e.key === "Enter" && newMessage) {
@@ -81,7 +105,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
-
+        socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
         toast({
@@ -94,10 +118,6 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     }
   };
-
-  useEffect(() => {
-    socket = io(ENDPOINT);
-  }, []);
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
@@ -138,11 +158,11 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               </>
             )}
           </Box>
-          <Box className="flex flex-col w-full h-[100%] justify-end p-2 bg-gray-400 rounded-md overflow-y-hidden">
+          <Box className="flex flex-col w-full h-full justify-end p-2 bg-gray-400 rounded-md overflow-y-hidden">
             {loading ? (
               <Spinner className="m-auto items-center" size="xl" />
             ) : (
-              <div className="flex flex-col overflow-y-scroll">
+              <div className="flex flex-col h-[80%] overflow-y-scroll">
                 <ScrollableChat messages={messages} />
               </div>
             )}

@@ -12,7 +12,7 @@ const ChatPage = () => {
   return (
     <div className="w-full text-white font-serif">
       {user && <SideDrawer />}
-      <Box className="flex justify-between w-full h-[91.5vh] p-[10px]">
+      <Box className="flex relative justify-between w-full lg:h-[91.5vh] p-[10px]">
         {user && <MyChats fetchAgain={fetchAgain} />}
         {user && (
           <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
