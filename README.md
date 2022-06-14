@@ -80,3 +80,15 @@ To begin, There will be 2 main directories.
 
 - Frontend
   - Handling all UI compenents and communication between the web framework
+
+## Notable Problems / Function I want to implement
+
+### Backend
+
+### Frontend
+
+- Search Users should update user input. (No need to have a button to activate search)
+- Search should focus on the users name or the username of the email. This way user search doesn't show every user based on a letter.
+- User account manipulation (Change user password)
+- When adding users to a new group, don't allow existing users to be shown in searches.
+- Updating group chat function to run in sequence.
