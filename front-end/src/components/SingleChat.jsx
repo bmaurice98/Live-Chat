@@ -28,6 +28,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const toast = useToast();
 
@@ -66,6 +67,13 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.emit("setup", user);
     socket.on("connection", () => {
       setSocketConnected(true);
+    });
+
+    socket.on("typing", () => {
+      setIsTyping(true);
+    });
+    socket.on("stop typing", () => {
+      setIsTyping(false);
     });
   }, []);
 
@@ -121,6 +129,27 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
+
+    if (!socketConnected) return;
+
+    if (!isTyping) {
+      setIsTyping(true);
+      socket.emit("typing", setSelectedChat._id);
+    }
+
+    let lastTypingTime = new Date().getTime();
+
+    var timerLength = 3000;
+
+    setTimeout(() => {
+      var timeNow = new Date().getTime();
+      var timeDiff = timeNow - lastTypingTime;
+
+      if (timeDiff >= timerLength && isTyping) {
+        socket.emit("stop typing", selectedChat._id);
+        setIsTyping(false);
+      }
+    }, timerLength);
   };
 
   return (
@@ -167,6 +196,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               </div>
             )}
             <FormControl className="mt-2" isRequired onKeyDown={sendMessage}>
+              {isTyping ? <div>...</div> : <></>}
               <Input
                 placeholder="Enter a message..."
                 onChange={typingHandler}
