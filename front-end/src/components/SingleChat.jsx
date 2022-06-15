@@ -21,7 +21,7 @@ import Lottie from "react-lottie";
 
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:3000";
+const ENDPOINT = "https://mern-mizu-live-chat.herokuapp.com/s";
 var socket, selectedChatCompare;
 
 export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
