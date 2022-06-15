@@ -15,6 +15,9 @@ import { ProfileModal } from "./miscellaneous/ProfileModal";
 import { UpdateGroupChatModel } from "./miscellaneous/UpdateGroupChatModel";
 import axios from "axios";
 import ScrollableChat from "./ScrollableChat";
+import animationData from "../animations/typingAnimation.json";
+
+import Lottie from "react-lottie";
 
 import io from "socket.io-client";
 
@@ -31,6 +34,15 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [isTyping, setIsTyping] = useState(false);
 
   const toast = useToast();
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    renderSettings: {
+      PreserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -62,10 +74,11 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
+  // User typing functionality
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
-    socket.on("connection", () => {
+    socket.on("connected", () => {
       setSocketConnected(true);
     });
 
@@ -77,12 +90,14 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     });
   }, []);
 
+  // Chat message retrieving functionality
   useEffect(() => {
     fetchMessages();
 
     selectedChatCompare = selectedChat;
   }, [selectedChat]);
 
+  // Updating users chatlogs when recieving new data
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
       if (
@@ -97,6 +112,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const sendMessage = async (e) => {
     if (e.key === "Enter" && newMessage) {
+      socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
           headers: {
@@ -134,7 +150,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     if (!isTyping) {
       setIsTyping(true);
-      socket.emit("typing", setSelectedChat._id);
+      socket.emit("typing", selectedChat._id);
     }
 
     let lastTypingTime = new Date().getTime();
@@ -187,7 +203,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               </>
             )}
           </Box>
-          <Box className="flex flex-col w-full h-full justify-end p-2 bg-gray-400 rounded-md overflow-y-hidden">
+          <Box className="flex flex-col w-full justify-end p-2 bg-gray-400 rounded-md overflow-y-hidden">
             {loading ? (
               <Spinner className="m-auto items-center" size="xl" />
             ) : (
@@ -195,8 +211,8 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <ScrollableChat messages={messages} />
               </div>
             )}
+            {isTyping ? <Lottie width={70} options={defaultOptions} /> : <></>}
             <FormControl className="mt-2" isRequired onKeyDown={sendMessage}>
-              {isTyping ? <div>...</div> : <></>}
               <Input
                 placeholder="Enter a message..."
                 onChange={typingHandler}
