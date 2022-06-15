@@ -32,6 +32,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [typing, setTyping] = useState(false);
 
   const toast = useToast();
 
@@ -148,8 +149,8 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     if (!socketConnected) return;
 
-    if (!isTyping) {
-      setIsTyping(true);
+    if (!typing) {
+      setTyping(true);
       socket.emit("typing", selectedChat._id);
     }
 
@@ -161,9 +162,9 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       var timeNow = new Date().getTime();
       var timeDiff = timeNow - lastTypingTime;
 
-      if (timeDiff >= timerLength && isTyping) {
+      if (timeDiff >= timerLength && typing) {
         socket.emit("stop typing", selectedChat._id);
-        setIsTyping(false);
+        setTyping(false);
       }
     }, timerLength);
   };
@@ -203,16 +204,28 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               </>
             )}
           </Box>
-          <Box className="flex flex-col w-full justify-end p-2 bg-gray-400 rounded-md overflow-y-hidden">
+          <Box className="flex flex-col w-full h-full justify-end p-2 bg-gray-400 rounded-md overflow-y-hidden">
             {loading ? (
               <Spinner className="m-auto items-center" size="xl" />
             ) : (
-              <div className="flex flex-col h-[80%] overflow-y-scroll">
+              <div className="flex flex-col h-full overflow-y-scroll">
                 <ScrollableChat messages={messages} />
               </div>
             )}
-            {isTyping ? <Lottie width={70} options={defaultOptions} /> : <></>}
-            <FormControl className="mt-2" isRequired onKeyDown={sendMessage}>
+            <FormControl
+              className="mt-2 flex flex-col"
+              isRequired
+              onKeyDown={sendMessage}
+            >
+              {isTyping ? (
+                <Lottie
+                  style={{ marginLeft: 0, marginBottom: 10 }}
+                  width={70}
+                  options={defaultOptions}
+                />
+              ) : (
+                <></>
+              )}
               <Input
                 placeholder="Enter a message..."
                 onChange={typingHandler}

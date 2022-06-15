@@ -167,11 +167,18 @@ const addToGroup = expressAsyncHandler(async (req, res) => {
   }
 });
 
-const chatDelete = expressAsyncHandler(async (req, res) => {
+const deleteAllChats = expressAsyncHandler(async (req, res) => {
   console.log(req.body);
-  const { chatId } = req.body;
 
-  await Chat.findByIdAndDelete(chatId);
+  const { chatId } = req.body;
+  try {
+    await Chat.deleteMany({});
+    console.log("Chat Collection cleared");
+    return res.status(200);
+  } catch (error) {
+    res.status(401);
+    throw new Error(error.message);
+  }
 });
 
 module.exports = {
@@ -181,5 +188,5 @@ module.exports = {
   renameGroup,
   removeFromGroup,
   addToGroup,
-  chatDelete,
+  deleteAllChats,
 };

@@ -57,4 +57,17 @@ const allMessages = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { sendMessage, allMessages };
+const deleteAllMessages = expressAsyncHandler(async (req, res) => {
+  console.log(req.body);
+
+  try {
+    await Message.deleteMany({});
+    console.log("Message Collection cleared");
+    res.status(200);
+  } catch (error) {
+    res.status(401);
+    throw new Error(error.message);
+  }
+});
+
+module.exports = { sendMessage, allMessages, deleteAllMessages };
