@@ -62,10 +62,10 @@ export const MyChats = ({ fetchAgain }) => {
 
       <Box className="flex flex-col w-full h-[100%] rounded-lg overflow-hidden bg-gray-400 p-3">
         {chats ? (
-          <Stack overflowY={"scroll"}>
+          <Stack overflowY={"hidden"}>
             {chats?.map((chat) => (
               <Box
-                className={`cursor-pointer px-3 py-2 rounded-md`}
+                className={`cursor-pointer px-3 py-2 rounded-md overflow-hidden`}
                 bg={selectedChat === chat ? "whatsapp.500" : "#00000"}
                 color={selectedChat === chat ? "gray.800" : "whatsapp.700"}
                 _hover={{ bg: "white" }}
