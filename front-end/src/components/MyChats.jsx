@@ -65,7 +65,7 @@ export const MyChats = ({ fetchAgain }) => {
           <Stack overflowY={"scroll"}>
             {chats?.map((chat) => (
               <Box
-                className={`cursor-pointer px-3 py-2 rounded-md`}
+                className={`cursor-pointer px-3 py-2 rounded-md overflow-hidden`}
                 bg={selectedChat === chat ? "whatsapp.500" : "#00000"}
                 color={selectedChat === chat ? "gray.800" : "whatsapp.700"}
                 _hover={{ bg: "white" }}

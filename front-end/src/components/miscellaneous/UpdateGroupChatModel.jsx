@@ -22,7 +22,6 @@ import { ChatState } from "../../context/ChatProvider";
 import { UserBadgeItem } from "../UserAvatar/UserBadgeItem";
 import axios from "axios";
 import UserListItem from "../UserAvatar/UserListItem";
-import { set } from "mongoose";
 
 export const UpdateGroupChatModel = ({
   fetchAgain,

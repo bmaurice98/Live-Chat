@@ -1,5 +1,4 @@
 import { Avatar, Tooltip } from "@chakra-ui/react";
-import { m } from "framer-motion";
 import React from "react";
 import ScrollableFeed from "react-scrollable-feed";
 import {
