@@ -6,7 +6,7 @@ MERN is the combination of MongoDB, ExpressJS, ReactJS, and NodeJS
 
 ### ReactJS
 
-- ReactJS is the front-end framework. Used for building the components of
+- ReactJS is the frontend framework. Used for building the components of
   a page. Everything the User sees is made through ReactJS.
 
 - Reusable component (effective in component that are shown in abundance on a page)
