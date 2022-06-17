@@ -73,9 +73,9 @@ export const MyChats = ({ fetchAgain }) => {
                 onClick={() => setSelectedChat(chat)}
               >
                 <Text className="font-bold font-serif">
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
+                  {!chat?.isGroupChat
+                    ? getSender(loggedUser, chat?.users)
+                    : chat?.chatName}
                 </Text>
               </Box>
             ))}
