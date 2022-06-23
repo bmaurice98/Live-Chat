@@ -62,7 +62,7 @@ export const MyChats = ({ fetchAgain }) => {
 
       <Box className="flex flex-col w-full h-[100%] rounded-lg overflow-hidden bg-gray-400 p-3">
         {chats ? (
-          <Stack overflowY={"scroll"}>
+          <Stack className="overflow-hidden">
             {chats?.map((chat) => (
               <Box
                 className={`cursor-pointer px-3 py-2 rounded-md overflow-hidden`}
