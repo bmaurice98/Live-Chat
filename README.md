@@ -92,3 +92,17 @@ To begin, There will be 2 main directories.
 - User account manipulation (Change user password)
 - When adding users to a new group, don't allow existing users to be shown in searches.
 - Updating group chat function to run in sequence.
+
+## Authors
+
+[Brandon Maurice](https://www.linkedin.com/in/brandon-maurice-a77190187/)
+
+## License
+
+This project is licensed under the [Brandon MAurice]
+
+## Acknowledgments
+
+Inspiration, code snippets, etc.
+
+- [Live Chat](https://github.com/piyush-eon/mern-chat-app)
