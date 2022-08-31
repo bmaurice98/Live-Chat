@@ -10,15 +10,16 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import debounce from "lodash.debounce";
 
-const Signup = () => {
+const Signup = ({ props }) => {
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmpassword, setConfirmpassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [pic, setPic] = useState("");
   const [loading, setLoading] = useState(false);
   const [passwordAlert, setpasswordAlert] = useState(false);
@@ -77,7 +78,7 @@ const Signup = () => {
 
   const submitHandler = async () => {
     setLoading(true);
-    if (!name || !email || !password || !confirmpassword) {
+    if (!name || !email || !password || !confirmPassword) {
       toast({
         title: "Please fill in all fields",
         status: "warning",
@@ -88,7 +89,7 @@ const Signup = () => {
       setLoading(false);
       return;
     }
-    if (password !== confirmpassword) {
+    if (password !== confirmPassword) {
       toast({
         title: "Passwords do not match",
         status: "warning",
@@ -133,15 +134,19 @@ const Signup = () => {
     }
   };
 
-  const matchPassword = (confirmPassword) => {
-    setTimeout(() => {
-      if (confirmPassword.toString() === password.toString()) {
-        setpasswordAlert(false);
-      } else {
-        setpasswordAlert(true);
-      }
-    }, 2000);
+  const handleChange = (event) => {
+    console.log(password);
+    if (!event.target.value) return;
+    console.log("====>", event.target.value);
+
+    if (event.target.value === password.toString()) {
+      setpasswordAlert(false);
+    } else {
+      setpasswordAlert(true);
+    }
   };
+
+  const debouncedChange = useMemo(() => debounce(handleChange, 1000), [props]);
 
   return (
     <div>
@@ -185,27 +190,14 @@ const Signup = () => {
           <FormLabel>Confirm Password</FormLabel>
           <InputGroup className="flex flex-col">
             <Input
-              type={show ? "text" : "password"}
+              type="password"
               placeholder="Confirm your Password"
-              onChange={(e) => {
-                setConfirmpassword(e.target.value);
-                matchPassword(e.target.value);
-              }}
+              onChange={debouncedChange}
             />
             {passwordAlert ? (
               <Text color={"red"}>Passwords do not match</Text>
             ) : null}
-            <InputRightElement className="w-[4.5rem]">
-              <Button
-                className="h-[1.75rem] mr-4"
-                size={"sm"}
-                bg={""}
-                _hover={{ bg: "" }}
-                onClick={() => setShow(!show)}
-              >
-                {show ? "Hide" : "Show"}
-              </Button>
-            </InputRightElement>
+            <InputRightElement className="w-[4.5rem]"></InputRightElement>
           </InputGroup>
         </FormControl>
         <FormControl id="profile-pic" paddingY={1}>

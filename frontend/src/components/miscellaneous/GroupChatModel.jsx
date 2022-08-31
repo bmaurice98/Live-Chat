@@ -15,7 +15,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useState } from "react";
+import debounce from "lodash.debounce";
+import React, { useState, useMemo } from "react";
 import { ChatState } from "../../context/ChatProvider";
 import { UserBadgeItem } from "../UserAvatar/UserBadgeItem";
 import UserListItem from "../UserAvatar/UserListItem";
@@ -24,7 +25,7 @@ const GroupChatModel = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -32,9 +33,10 @@ const GroupChatModel = ({ children }) => {
 
   const { user, chats, setChats } = ChatState();
 
-  const handleSearch = async (query) => {
-    setSearch(query);
-    if (!query || query.size === 0) return setSearchResult([]);
+  const handleSearch = async (e) => {
+    const search = e.target.value;
+    console.log(search);
+    if (!search || search.size === 0) return setSearchResult([]);
 
     try {
       setLoading(true);
@@ -128,6 +130,11 @@ const GroupChatModel = ({ children }) => {
     }
     setSelectedUsers([...selectedUsers, userToAdd]);
   };
+
+  const debouncedSearch = useMemo(
+    () => debounce(handleSearch, 500),
+    [children]
+  );
   return (
     <>
       <span onClick={onOpen}>{children}</span>
@@ -150,7 +157,7 @@ const GroupChatModel = ({ children }) => {
               <Input
                 placeholder="Add Users"
                 mb={1}
-                onChange={(e) => handleSearch(e.target.value)}
+                onChange={debouncedSearch}
               />
             </FormControl>
             <Box className="flex w-full flex-wrap">
